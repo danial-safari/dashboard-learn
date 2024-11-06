@@ -3,13 +3,7 @@ import { Link } from "react-router-dom";
 const Login = () => {
   return (
     <>
-      <div className="main d-flex justify-content-center w-100">
-        <main className="content d-flex p-0">
-          <div className="container d-flex flex-column">
-            <div className="row h-100">
-              <div className="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
-                <div className="d-table-cell align-middle">
-                  <div className="text-center mt-4">
+        <div className="text-center mt-4">
                     <img src={logo} style={{ height: '100px' }} />
                     <h1 className="h2">پلتفرم آموزش آنلاین</h1>
                     <p className="lead">
@@ -19,9 +13,8 @@ const Login = () => {
                       قبلا ثبت نام نکرده اید؟
                       <Link to="/register" className="me-2">ثبت نام کنید </Link>
                     </p>
-                  </div>
-
-                  <div className="card">
+        </div>
+        <div className="card">
                     <div className="card-body">
                       <div className="m-sm-4">
                         <form>
@@ -47,13 +40,7 @@ const Login = () => {
                         </form>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </main>
-      </div>
+        </div>
     </>
   )
 }
