@@ -3,7 +3,7 @@ import Login, { loginAction } from "./features/Identity/components/login";
 import Register, { registerAction } from "./features/Identity/components/register";
 import IdentityLayout from "./layouts/identity-layout";
 import MainLayout from "./layouts/mainLayout/main-layout";
-import Courses from "./pages/courses";
+import Courses, { coursesLoader } from "./pages/courses";
 
 const router = createBrowserRouter([
     {
@@ -11,7 +11,8 @@ const router = createBrowserRouter([
         element : <MainLayout/>,
         children :[{
             element : <Courses />,
-            index : true
+            index : true,
+            loader : coursesLoader
         }]
     },
     {
