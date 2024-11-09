@@ -1,7 +1,7 @@
 import React from 'react'
 import { useAppContext } from '../contexts/app/app-context'
 
-export const ChangeTheme = () => {
+const  ChangeTheme = () => {
     
   const { theme, changeTheme } = useAppContext()
 
@@ -47,3 +47,5 @@ export const ChangeTheme = () => {
     </button>
   )
 }
+
+export default ChangeTheme;

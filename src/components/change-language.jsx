@@ -3,12 +3,16 @@ import usFlag from '@assets/images/us.png'
 import faFlag from '@assets/images/fa.png'
 import { useAppContext } from '../contexts/app/app-context'
 
-export const ChangeLanguage = () => {
+const ChangeLanguage = () => {
   const [show, setShow] = useState(false)
 
   const ref = useRef()
 
   const { language, changeLanguage } = useAppContext()
+
+  useEffect(()=>{
+    setShow(false)
+  },[language])
 
   useEffect(() => {
     const checkIfClickOutside = (e) => {
@@ -53,3 +57,4 @@ export const ChangeLanguage = () => {
     </div>
   )
 }
+ export default ChangeLanguage;
