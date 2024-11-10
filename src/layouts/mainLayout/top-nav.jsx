@@ -8,7 +8,7 @@ const TopNav = () => {
     const {t} = useTranslation();
     const {language} = useAppContext();
     const logout = () => {
-
+        localStorage.removeItem('token')
     }
     return (
         <nav className='navbar'>
