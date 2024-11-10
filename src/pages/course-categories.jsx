@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next'
 import CategoryList from '../features/categories/components/category-list'
 import Modal from '../components/modal'
 import { toast } from 'react-toastify'
+import AddOrUpdateCategories from '../features/categories/components/add-or-update-category'
 
 const CourseCategories = () => {
   const { t } = useTranslation()
@@ -18,6 +19,7 @@ const CourseCategories = () => {
   const [selectedCategory, setSelectedCategory] = useState()
   const navigate = useNavigate()
   const data = useLoaderData()
+  const [showAddCategory, setShowAddCategory] = useState(false)
 
   const deleteCategory = (categoryId) => {
     setSelectedCategory(categoryId)
@@ -37,19 +39,18 @@ const CourseCategories = () => {
         success: {
           render() {
             const url = new URL(window.location.href)
-            navigate(url.pathname + url.search);
+            navigate(url.pathname + url.search)
             return 'عملیات با موفقیت انجام شد'
           },
         },
-        error : {
-          render({data}){
+        error: {
+          render({ data }) {
             return t('categoryList' + data.response.data.code)
-          }
-        }
+          },
+        },
       },
       {
-        position: "top-center"
-
+        position: 'top-center',
       },
     )
   }
@@ -62,6 +63,7 @@ const CourseCategories = () => {
             <a
               className="btn btn-primary fw-bolder mt-n1"
               href="#"
+              onClick={() => setShowAddCategory(true)}
               data-direction={
                 localStorage.getItem('language') === 'fa' ? 'rtl' : 'ltr'
               }
@@ -69,7 +71,12 @@ const CourseCategories = () => {
               <i className="fas fa-plus ms-2"></i>
               {t('coursesLayout.addNewCategories')}
             </a>
+
+            
           </div>
+          {showAddCategory  && (
+              <AddOrUpdateCategories setShowAddCategory={setShowAddCategory} />
+            )}
           <Suspense
             fallback={<p className="text-info">در حال دریافت اطلاعات....</p>}
           >
