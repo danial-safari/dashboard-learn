@@ -3,7 +3,7 @@ import Pagination from '../../../components/pagination'
 import { useNavigation } from 'react-router-dom'
 import Spinner from '../../../components/spinner';
 
-const CategoryList = ({ categories : { data , totalRecords} , setShowDeleteModal }) => {
+const CategoryList = ({ categories : { data , totalRecords} , deleteCategory }) => {
     const navigation = useNavigation();
   return (
     <>
@@ -24,7 +24,7 @@ const CategoryList = ({ categories : { data , totalRecords} , setShowDeleteModal
                     <tr key={category.id}>
                       <td>{category.name}</td>
                       <td className="table-action">
-                        <a className="ms-3">
+                        <div className="ms-3">
                           <a
                             className="ms-3"
                           >
@@ -43,7 +43,7 @@ const CategoryList = ({ categories : { data , totalRecords} , setShowDeleteModal
                           </a>
                           <a
                             className="ms-3"
-                            onClick={()=> setShowDeleteModal(true)}
+                            onClick={()=> deleteCategory(category.id)}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +59,7 @@ const CategoryList = ({ categories : { data , totalRecords} , setShowDeleteModal
                               <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                             </svg>
                           </a>
-                        </a>
+                        </div>
                       </td>
                     </tr>
                   )

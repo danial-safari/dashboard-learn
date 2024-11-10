@@ -1,5 +1,11 @@
 import React, { Suspense, useState } from 'react'
-import { Await, defer, useLoaderData } from 'react-router-dom'
+import {
+  Await,
+  defer,
+  Navigate,
+  useLoaderData,
+  useNavigate,
+} from 'react-router-dom'
 import { httpInterceptedServices } from '../core/http-service'
 import { useTranslation } from 'react-i18next'
 import CategoryList from '../features/categories/components/category-list'
@@ -8,7 +14,27 @@ import Modal from '../components/modal'
 const CourseCategories = () => {
   const { t } = useTranslation()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState()
+  const navigate = useNavigate();
   const data = useLoaderData()
+
+  const deleteCategory = (categoryId) => {
+    setSelectedCategory(categoryId)
+    setShowDeleteModal(true)
+  }
+
+  const handleDeleteCategory = async () => {
+    setShowDeleteModal(false)
+    const response = await httpInterceptedServices.delete(
+      `/CourseCategory/${selectedCategory}`,
+    )
+    if (response.status === 200) {
+      const url = new URL(window.location.href)
+      navigate(url.pathname + url.search)
+    }
+  }
+
+  
   return (
     <>
       <div className="row">
@@ -29,7 +55,12 @@ const CourseCategories = () => {
             fallback={<p className="text-info">در حال دریافت اطلاعات....</p>}
           >
             <Await resolve={data.categories}>
-              {(loadCategories) => <CategoryList setShowDeleteModal={setShowDeleteModal} categories={loadCategories} />}
+              {(loadCategories) => (
+                <CategoryList
+                  deleteCategory={deleteCategory}
+                  categories={loadCategories}
+                />
+              )}
             </Await>
           </Suspense>
         </div>
@@ -40,10 +71,18 @@ const CourseCategories = () => {
         title="حذف"
         body="آیا از حذف این دسته اطمینان دارید ؟"
       >
-        <button type="button" className="btn btn-secondary fw-bolder" onClick={()=> setShowDeleteModal(false)}>
+        <button
+          type="button"
+          className="btn btn-secondary fw-bolder"
+          onClick={() => setShowDeleteModal(false)}
+        >
           انصراف
         </button>
-        <button type="button" className="btn btn-primary fw-bolder">
+        <button
+          type="button"
+          className="btn btn-primary fw-bolder"
+          onClick={handleDeleteCategory}
+        >
           حذف
         </button>
       </Modal>
