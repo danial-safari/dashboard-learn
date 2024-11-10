@@ -9,7 +9,7 @@ const Course = ({id,title, coverImageUrl, courseLevel, description, duration, nu
                     {courseLevel}
                 </div>
                 <h4 className='mb-0'>
-                <a >{title}</a>
+                <Link to={`/courses/${id}`} >{title}</Link>
                 </h4>
             </div>
             <div className='card-body px-4 pt-2'>

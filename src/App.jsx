@@ -12,8 +12,9 @@ function App() {
     link.rel = 'stylesheet';
     link.href = `/css/${theme}.css`
     head.appendChild(link);
+    console.log(import.meta.env.VITE_PAGE_SIZE)
+
     return () =>{head.removeChild(link)}
-    
   }, [theme])
   return <RouterProvider router={router}/>
 }
