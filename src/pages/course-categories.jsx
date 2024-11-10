@@ -10,12 +10,13 @@ import { httpInterceptedServices } from '../core/http-service'
 import { useTranslation } from 'react-i18next'
 import CategoryList from '../features/categories/components/category-list'
 import Modal from '../components/modal'
+import { toast } from 'react-toastify'
 
 const CourseCategories = () => {
   const { t } = useTranslation()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState()
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const data = useLoaderData()
 
   const deleteCategory = (categoryId) => {
@@ -25,16 +26,34 @@ const CourseCategories = () => {
 
   const handleDeleteCategory = async () => {
     setShowDeleteModal(false)
-    const response = await httpInterceptedServices.delete(
+    const response = httpInterceptedServices.delete(
       `/CourseCategory/${selectedCategory}`,
     )
-    if (response.status === 200) {
-      const url = new URL(window.location.href)
-      navigate(url.pathname + url.search)
-    }
+
+    toast.promise(
+      response,
+      {
+        pending: 'درحال حذف ...',
+        success: {
+          render() {
+            const url = new URL(window.location.href)
+            navigate(url.pathname + url.search);
+            return 'عملیات با موفقیت انجام شد'
+          },
+        },
+        error : {
+          render({data}){
+            return t('categoryList' + data.response.data.code)
+          }
+        }
+      },
+      {
+        position: "top-center"
+
+      },
+    )
   }
 
-  
   return (
     <>
       <div className="row">
