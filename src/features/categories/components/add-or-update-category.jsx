@@ -3,6 +3,8 @@ import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { httpInterceptedServices } from '@core/http-service'
+import { useCategoryContext } from '../category-context'
+import { useEffect } from 'react'
 
 const AddOrUpdateCategories = ({ setShowAddCategory }) => {
   const { t } = useTranslation()
@@ -14,9 +16,20 @@ const AddOrUpdateCategories = ({ setShowAddCategory }) => {
     formState: { errors },
   } = useForm()
 
+  const {category , setCategory} = useCategoryContext();
+
+  useEffect(()=>{
+    if(category){
+        setValue('name' , category.name)
+        setValue('id' , category.id)
+    }
+  },[category])
+
   const onClose = () => {
-    setShowAddCategory(false)
+    setShowAddCategory(false);
+    setCategory(null)
   }
+
   const onSubmit = (data) => {
     setShowAddCategory(false)
     const response = httpInterceptedServices.post('/CourseCategory/', data)
@@ -32,7 +45,9 @@ const AddOrUpdateCategories = ({ setShowAddCategory }) => {
           render() {
             const url = new URL(window.location.href)
             navigate(url.pathname + url.search)
-
+            if(category){
+                setCategory(null);
+            }
             return t('toastNotification.success')
           },
         },

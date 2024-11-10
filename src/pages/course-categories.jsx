@@ -12,16 +12,24 @@ import CategoryList from '../features/categories/components/category-list'
 import Modal from '../components/modal'
 import { toast } from 'react-toastify'
 import AddOrUpdateCategories from '../features/categories/components/add-or-update-category'
+import { useCategoryContext } from '../features/categories/category-context'
 
 const CourseCategories = () => {
   const { t } = useTranslation()
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+
   const [selectedCategory, setSelectedCategory] = useState()
+
   const navigate = useNavigate()
+
   const data = useLoaderData()
+
   const [showAddCategory, setShowAddCategory] = useState(false)
 
+  const {category} = useCategoryContext();
+
   const deleteCategory = (categoryId) => {
+
     setSelectedCategory(categoryId)
     setShowDeleteModal(true)
   }
@@ -74,9 +82,9 @@ const CourseCategories = () => {
 
             
           </div>
-          {showAddCategory  && (
+          {(showAddCategory || category)  && 
               <AddOrUpdateCategories setShowAddCategory={setShowAddCategory} />
-            )}
+            }
           <Suspense
             fallback={<p className="text-info">در حال دریافت اطلاعات....</p>}
           >

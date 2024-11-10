@@ -1,16 +1,21 @@
 import React from 'react'
 import Pagination from '../../../components/pagination'
 import { useNavigation } from 'react-router-dom'
-import Spinner from '../../../components/spinner';
+import Spinner from '../../../components/spinner'
+import { useCategoryContext } from '../category-context'
 
-const CategoryList = ({ categories : { data , totalRecords} , deleteCategory }) => {
-    const navigation = useNavigation();
+const CategoryList = ({
+  categories: { data, totalRecords },
+  deleteCategory,
+}) => {
+  const {setCategory} = useCategoryContext();
+  const navigation = useNavigation()
   return (
     <>
       <div className="row">
         <div className="col-12">
           <div className="card">
-            {navigation.state !== 'idle' && <Spinner/>}
+            {navigation.state !== 'idle' && <Spinner />}
             <table className="table table-striped">
               <thead>
                 <tr>
@@ -25,9 +30,7 @@ const CategoryList = ({ categories : { data , totalRecords} , deleteCategory }) 
                       <td>{category.name}</td>
                       <td className="table-action">
                         <div className="ms-3">
-                          <a
-                            className="ms-3"
-                          >
+                          <a className="ms-3" onClick={() => setCategory(category)}>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="24"
@@ -43,7 +46,7 @@ const CategoryList = ({ categories : { data , totalRecords} , deleteCategory }) 
                           </a>
                           <a
                             className="ms-3"
-                            onClick={()=> deleteCategory(category.id)}
+                            onClick={() => deleteCategory(category.id)}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -66,8 +69,8 @@ const CategoryList = ({ categories : { data , totalRecords} , deleteCategory }) 
                 })}
               </tbody>
             </table>
-            <div className='card-footer'>
-                <Pagination totalRecords={totalRecords}/>
+            <div className="card-footer">
+              <Pagination totalRecords={totalRecords} />
             </div>
           </div>
         </div>
